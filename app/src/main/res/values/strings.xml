@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Spins</string>
+    <string name="Year">Y</string>
+    <string name="Month">M</string>
+    <string name="Day">D</string>
 </resources>
