@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/wheelPickerView_default_toolbar_padding">
+
+    <TextView
+        android:id="@+id/negative_text"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:paddingRight="50dp"
+        android:text="@string/negative_default_text" />
+
+    <TextView
+        android:id="@+id/positive_text"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="50dp"
+        android:text="@string/positive_default_text" />
+
+</RelativeLayout>

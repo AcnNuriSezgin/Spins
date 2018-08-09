@@ -26,4 +26,8 @@
         </attr>
         <attr name="wheel_font_path" format="string" />
     </declare-styleable>
+    <declare-styleable name="WheelHorizontalListView">
+        <attr name="content_height" format="dimension" />
+        <attr name="toolbar_layout" format="integer" />
+    </declare-styleable>
 </resources>

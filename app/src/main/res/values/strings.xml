@@ -3,4 +3,6 @@
     <string name="Year">Y</string>
     <string name="Month">M</string>
     <string name="Day">D</string>
+    <string name="negative_default_text">@android:string/cancel</string>
+    <string name="positive_default_text">@android:string/ok</string>
 </resources>

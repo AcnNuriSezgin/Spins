@@ -1121,6 +1121,12 @@ public class WheelPicker extends View implements Runnable {
          * @param position 当前选中的数据在数据列表中的位置
          */
         void onItemSelected(WheelPicker picker, Object data, int position);
+
+        class Empty implements OnItemSelectedListener {
+
+            @Override
+            public void onItemSelected(WheelPicker picker, Object data, int position) {  }
+        }
     }
 
     /**
@@ -1188,5 +1194,17 @@ public class WheelPicker extends View implements Runnable {
          *              Express WheelPicker in state of scrolling
          */
         void onWheelScrollStateChanged(int state);
+
+        class Empty implements OnWheelChangeListener {
+            @Override
+            public void onWheelScrolled(int offset) {  }
+
+            @Override
+            public void onWheelSelected(int position) {  }
+
+            @Override
+            public void onWheelScrollStateChanged(int state) { }
+        }
+
     }
 }
