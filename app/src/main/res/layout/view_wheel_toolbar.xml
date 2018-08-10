@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/negative_text"
-        style="@style/TextAppearance.AppCompat.Small"
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/positive_text"
-        style="@style/TextAppearance.AppCompat.Small"
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

@@ -4,5 +4,8 @@
     <dimen name="WheelItemSpace">12dp</dimen>
     <dimen name="WheelIndicatorSize">2dp</dimen>
     <dimen name="WheelMargins">8dp</dimen>
+    <dimen name="wheelPickerView_default_toolbar_padding">5dp</dimen>
+    <dimen name="wheelPickerView_default_divider_height">1dp</dimen>
+    <dimen name="wheelPickerView_default_text_size">18sp</dimen>
     <dimen name="wheelPickerView_default_content_height">140dp</dimen>
 </resources>

@@ -20,10 +20,12 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import nurisezgin.com.spins.R;
+import nurisezgin.com.spins.core.DataObserver;
 
 /**
  * 滚轮选择器
@@ -71,8 +73,9 @@ public class WheelPicker extends View implements Runnable {
      *
      * @see OnWheelChangeListener,OnItemSelectedListener
      */
-    private OnItemSelectedListener mOnItemSelectedListener;
+    private List<OnItemSelectedListener> mOnItemSelectedListeners = new ArrayList<>();
     private OnWheelChangeListener mOnWheelChangeListener;
+    private DataObserver mDataObserver = new DataObserver.Empty();
 
     private Rect mRectDrawn;
     private Rect mRectIndicatorHead, mRectIndicatorFoot;
@@ -794,8 +797,7 @@ public class WheelPicker extends View implements Runnable {
             if (isDebug)
                 Log.i(TAG, position + ":" + mData.get(position) + ":" + mScrollOffsetY);
             mCurrentItemPosition = position;
-            if (null != mOnItemSelectedListener && isTouchTriggered)
-                mOnItemSelectedListener.onItemSelected(this, mData.get(position), position);
+            notifyOnItemSelectedListeners(this, mData.get(position), position);
             if (null != mOnWheelChangeListener && isTouchTriggered) {
                 mOnWheelChangeListener.onWheelSelected(position);
                 mOnWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_IDLE);
@@ -830,8 +832,22 @@ public class WheelPicker extends View implements Runnable {
         invalidate();
     }
 
-    public void setOnItemSelectedListener(OnItemSelectedListener listener) {
-        mOnItemSelectedListener = listener;
+    private void notifyOnItemSelectedListeners(WheelPicker picker, Object data, int position) {
+        for (OnItemSelectedListener l : mOnItemSelectedListeners) {
+            l.onItemSelected(picker, data, position);
+        }
+    }
+
+    public void addOnItemSelectedListener(OnItemSelectedListener listener) {
+        mOnItemSelectedListeners.add(listener);
+    }
+
+    public void removeOnItemSelectedListener(OnItemSelectedListener listener) {
+        mOnItemSelectedListeners.remove(listener);
+    }
+
+    public void removeAllOnItemSelectedListeners() {
+        mOnItemSelectedListeners.clear();
     }
 
     public int getSelectedItemPosition() {
@@ -1102,6 +1118,20 @@ public class WheelPicker extends View implements Runnable {
         computeTextSize();
         requestLayout();
         invalidate();
+    }
+
+    public void setDataObserver(DataObserver observer) {
+        mDataObserver = observer;
+        mDataObserver.notifyDataSetChanged();
+    }
+
+    public void update() {
+        mDataObserver.notifyDataSetChanged();
+    }
+
+    public void dependsOn(WheelPicker picker) {
+        picker.addOnItemSelectedListener((picker1, data, position) ->
+                update());
     }
 
     /**

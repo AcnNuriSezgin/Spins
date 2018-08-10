@@ -1,4 +1,4 @@
-package nurisezgin.com.spins;
+package nurisezgin.com.spins.core;
 
 import android.text.TextUtils;
 
@@ -16,6 +16,8 @@ public final class SelectedValues {
 
     private Map<Integer, SelectedValue> values = new HashMap<>();
 
+    SelectedValues() { }
+
     public Map<Integer, SelectedValue> getValues() {
         return values;
     }
@@ -24,12 +26,12 @@ public final class SelectedValues {
         values.put(position, value);
     }
 
-    public static class SelectedValue {
+    public static final class SelectedValue {
 
         private final int position;
         private final String data;
 
-        public SelectedValue(int position, String data) {
+        SelectedValue(int position, String data) {
             this.position = position;
             this.data = data;
         }

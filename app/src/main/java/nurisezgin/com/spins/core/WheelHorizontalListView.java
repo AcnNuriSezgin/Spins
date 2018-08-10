@@ -1,4 +1,4 @@
-package nurisezgin.com.spins;
+package nurisezgin.com.spins.core;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,9 +11,13 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.aigestudio.wheelpicker.WheelPicker;
+import com.annimon.stream.Stream;
 import com.annimon.stream.function.Consumer;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import nurisezgin.com.spins.R;
 
 /**
  * Created by nuri on 09.08.2018
@@ -95,14 +99,32 @@ public class WheelHorizontalListView extends LinearLayout {
 
         for (int i = 0; i < adapter.getSectionCount(); i++) {
             int section = i;
-            List<String> data = adapter.getData(section);
-
             WheelPicker picker = new WheelPicker(getContext());
             picker.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
-            adapter.onBindWheelPicker(picker);
-            picker.setData(data);
+            adapter.onBindWheelPicker(picker, section);
             contentView.addView(picker);
         }
+    }
+
+    public WheelListAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void clear() {
+        Stream.of(getPickers())
+                .forEach(picker -> picker.removeAllOnItemSelectedListeners());
+    }
+
+    public List<WheelPicker> getPickers() {
+        List<WheelPicker> pickers = new ArrayList<>();
+        for (int i = 0; i < contentView.getChildCount(); i++) {
+            View view = contentView.getChildAt(i);
+            if (view instanceof WheelPicker) {
+                pickers.add((WheelPicker) view);
+            }
+        }
+
+        return pickers;
     }
 
     public View getToolbar() {
