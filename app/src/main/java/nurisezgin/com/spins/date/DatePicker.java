@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 
@@ -25,8 +26,10 @@ import static nurisezgin.com.spins.date.DefaultConfig.newDefaultConfig;
  */
 public final class DatePicker extends BottomSheetDialogFragment {
 
+    private static final String TAG = "DatePicker";
     public static final int REQUEST_CODE = 0x11;
     private static final String KEY_CONFIG = ":picker_config:";
+    private View contentView;
     private WheelHorizontalListView listView;
 
     public static DatePicker newInstance(Context context) {
@@ -79,7 +82,7 @@ public final class DatePicker extends BottomSheetDialogFragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View contentView = inflater.inflate(
+        contentView = inflater.inflate(
                 R.layout.view_date_picker, container, false);
 
         listView = contentView.findViewById(R.id.date_wheel_list);
@@ -96,18 +99,45 @@ public final class DatePicker extends BottomSheetDialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.getParcelable(KEY_CONFIG) != null) {
+            getArguments().putParcelable(KEY_CONFIG, savedInstanceState.getParcelable(KEY_CONFIG));
+        }
 
         DatePickerConfig config = getArguments().getParcelable(KEY_CONFIG);
+        updateViewConfigs(config);
+
         DatePickerWheelListAdapter adapter = new DatePickerWheelListAdapter(config);
         listView.setAdapter(adapter);
 
         linkPickers();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        DatePickerConfig config = getArguments().getParcelable(KEY_CONFIG);
+        outState.putParcelable(KEY_CONFIG, config);
+    }
+
+    private void updateViewConfigs(DatePickerConfig config) {
+        new DialogViews(config).updateViews(contentView);
+
+        final View toolbar = listView.getToolbar();
+        final TextView negativeButton = toolbar.findViewById(R.id.negative_text);
+        final TextView positiveButton = toolbar.findViewById(R.id.positive_text);
+
+        negativeButton.setOnClickListener(v -> dismiss());
+        positiveButton.setOnClickListener(this::onDateSelected);
+    }
+
+    private void onDateSelected(View v) {
+        DatePickerConfig config = getArguments().getParcelable(KEY_CONFIG);
+        getAnyOfListener().onDateSelected(config.getDay(), config.getMonth(), config.getYear());
+    }
+
     private void linkPickers() {
         List<WheelPicker> pickers = listView.getPickers();
         pickers.get(0).dependsOn(pickers.get(1));
-        pickers.get(0).dependsOn(pickers.get(2));
         pickers.get(1).dependsOn(pickers.get(2));
     }
 

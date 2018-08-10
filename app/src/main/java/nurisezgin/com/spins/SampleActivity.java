@@ -3,6 +3,7 @@ package nurisezgin.com.spins;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import nurisezgin.com.spins.date.DatePicker;
 import nurisezgin.com.spins.date.OnDateSelectedListener;
@@ -16,12 +17,14 @@ public class SampleActivity extends FragmentActivity implements OnDateSelectedLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DatePicker.newInstance(this)
-                .show(getSupportFragmentManager(), "TAG");
+        if (savedInstanceState == null) {
+            DatePicker.newInstance(this)
+                    .show(getSupportFragmentManager(), "TAG");
+        }
     }
 
     @Override
     public void onDateSelected(int day, int month, int year) {
-
+        Toast.makeText(this, "day = " + day + ", month = " + month + ", year = " + year, Toast.LENGTH_SHORT).show();
     }
 }

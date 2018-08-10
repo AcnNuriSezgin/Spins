@@ -1,6 +1,11 @@
 package nurisezgin.com.spins.date;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.annotation.Px;
 import android.support.v4.content.ContextCompat;
 
 import java.util.Calendar;
@@ -14,17 +19,14 @@ import nurisezgin.com.spins.R;
 final class DefaultConfig {
 
     static DatePickerConfig newDefaultConfig(Context context) {
-        int toolbarButtonColor = ContextCompat.getColor(context, R.color.color_black);
-        int toolbarColor = ContextCompat.getColor(context, R.color.color_white);
-        int toolbarPadding = context.getResources()
-                .getDimensionPixelSize(R.dimen.wheelPickerView_default_toolbar_padding);
-        int dividerColor = ContextCompat.getColor(context, R.color.color_white);
-        int dividerHeight = context.getResources()
-                .getDimensionPixelSize(R.dimen.wheelPickerView_default_divider_height);
-        int textColor = ContextCompat.getColor(context, R.color.color_gray);
-        int selectedTextColor = ContextCompat.getColor(context, R.color.color_black);
-        int textSize = context.getResources()
-                .getDimensionPixelSize(R.dimen.wheelPickerView_default_text_size);
+        int toolbarButtonColor = toColor(context, R.color.color_black);
+        int toolbarColor = toColor(context, R.color.color_white);
+        int dividerColor = toColor(context, R.color.color_white);
+        int textColor = toColor(context, R.color.color_gray);
+        int selectedTextColor = toColor(context, R.color.color_black);
+        int toolbarPadding = toPixel(context, R.dimen.wheelPickerView_default_toolbar_padding);
+        int dividerHeight = toPixel(context, R.dimen.wheelPickerView_default_divider_height);
+        int textSize = toPixel(context, R.dimen.wheelPickerView_default_text_size);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date(System.currentTimeMillis()));
@@ -33,6 +35,7 @@ final class DefaultConfig {
         int currentYear = calendar.get(Calendar.YEAR);
 
         return DatePickerConfig.builder().toolbarButtonColor(toolbarButtonColor)
+                .toolbarButtonColor(toolbarButtonColor)
                 .toolbarBackgroundColor(toolbarColor)
                 .toolbarPadding(toolbarPadding)
                 .dividerColor(dividerColor)
@@ -41,13 +44,31 @@ final class DefaultConfig {
                 .selectedTextColor(selectedTextColor)
                 .textSize(textSize)
                 .day(currentDay)
-                .month(currentMonth)
+                .month(currentMonth + 1)
                 .year(currentYear)
                 .maxYear(currentYear + 20)
                 .minYear(currentYear - 20)
                 .maxMonth(10)
                 .maxDay(22)
                 .build();
+    }
+
+    @ColorInt
+    private static int toColor(Context ctx, @ColorRes int resId) {
+        try {
+            return ContextCompat.getColor(ctx, resId);
+        } catch (Exception e) {
+            return Color.TRANSPARENT;
+        }
+    }
+
+    @Px
+    private static int toPixel(Context ctx, @DimenRes int resId) {
+        try {
+            return ctx.getResources().getDimensionPixelSize(resId);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 }

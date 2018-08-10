@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
+import com.annimon.stream.IntStream;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -854,8 +856,21 @@ public class WheelPicker extends View implements Runnable {
         return mSelectedItemPosition;
     }
 
+    public Object getSelectedData() {
+        return mData.get(getSelectedItemPosition());
+    }
+
     public void setSelectedItemPosition(int position) {
         setSelectedItemPosition(position, true);
+    }
+
+    public void setSelectedData(Object data) {
+        int position = IntStream.range(0, getData().size())
+                .filter(pos -> getData().get(pos).toString().equals(data.toString()))
+                .findFirst()
+                .orElse(0);
+
+        setSelectedItemPosition(position, false);
     }
 
     public void setSelectedItemPosition(int position, final boolean animated) {
@@ -883,7 +898,6 @@ public class WheelPicker extends View implements Runnable {
         invalidate();
       }
     }
-
 
     public int getCurrentItemPosition() {
         return mCurrentItemPosition;

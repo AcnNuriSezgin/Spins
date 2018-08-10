@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by nuri on 09.08.2018
  */
-public class DatePickerConfig implements Parcelable {
+final class DatePickerConfig implements Parcelable {
 
     private final int toolbarButtonColor;
     private final int toolbarBackgroundColor;
