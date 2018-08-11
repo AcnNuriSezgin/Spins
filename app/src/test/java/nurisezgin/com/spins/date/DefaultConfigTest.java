@@ -35,7 +35,7 @@ public class DefaultConfigTest {
     @Test
     public void should_MonthCorrect() {
         Calendar calendar = Calendar.getInstance();
-        int expected = calendar.get(Calendar.MONTH);
+        int expected = calendar.get(Calendar.MONTH) + 1;
 
         DatePickerConfig config = DefaultConfig.newDefaultConfig(mockContext);
         int actual = config.getMonth();
